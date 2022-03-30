@@ -1,0 +1,4 @@
+<main>
+  <app-product *ngFor="let val of products; let i = index" [product]="val"></app-product>
+</main>
+<app-pagination *ngIf="products.length > 0" [index]="page" (page)="pageEvent($event)"></app-pagination>

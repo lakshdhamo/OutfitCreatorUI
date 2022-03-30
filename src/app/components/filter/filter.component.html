@@ -1,0 +1,9 @@
+<div class="checkbox" *ngFor="let category of category.categories">
+  <ul>
+    <span (click)="onCategorySelect(category.name)" role="button" class="vertical-filters-header">{{category.value}}</span>
+    <li *ngFor="let item of category.filters">
+      <span (click)="onCategorySelect(item.name)" role="button" class="vertical-filters-filters">{{item.value}}</span>
+    </li>
+
+  </ul>
+</div>

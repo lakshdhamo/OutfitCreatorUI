@@ -1,0 +1,30 @@
+.category {
+  cursor: pointer;
+}
+
+.vertical-filters-header {
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 14px;
+  margin: 0 0 18x;
+  clear: both;
+  color: #282c3f;
+  display: block;
+  // cursor: pointer;
+}
+
+.vertical-filters-label {
+  display: block;
+  width: 95%;
+  white-space: nowrap;
+  // cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 17px;
+  color: #282c3f;
+  // margin: 0 0 28px;
+}
+
+ul {
+  list-style-type: none;
+}
