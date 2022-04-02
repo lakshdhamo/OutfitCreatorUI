@@ -17,6 +17,9 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 11. Detailed Product information can be viewed by clicking any image
 12. Product page can be closed to go back to home screen
 
+![image](https://user-images.githubusercontent.com/56861446/161390794-ae64d55a-5fd2-4b4a-be4f-b0a061a3ee5f.png)
+
+
 ## Project setup
 Install the project dependencies using ` npm install `
 
