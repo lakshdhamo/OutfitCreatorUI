@@ -7,19 +7,3 @@ p {
   font-size: 10rem;
 }
 
-numbered-pagination {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-}
-
-main {
-  display: grid;
-  grid-template-columns: repeat(5, 10rem);
-}
-
-app-product {
-  height: 20rem;
-  // width: 10rem;
-}

@@ -2,12 +2,13 @@ import { Gender } from './../objects/filters/gender';
 import { Filter } from './../objects/filters/filter';
 import { Product } from './../objects/product';
 import { HttpClientService } from './httpclient.service';
-import { Subject } from 'rxjs';
+import { forkJoin, Subject } from 'rxjs';
 import { Injectable } from "@angular/core";
 import { Query } from '../objects/query';
 import { Outfit } from '../objects/outfit';
 import { HttpParams } from '@angular/common/http';
-import { ThisReceiver } from '@angular/compiler';
+import { Pagination } from '../objects/pagination/pagination';
+import { ImageResolution } from '../enums/imageResolution.enum';
 
 @Injectable({
   providedIn: "root"
@@ -16,29 +17,46 @@ export class OutfitService {
   private query = new Query();
   products$ = new Subject<Product[]>();
   category$ = new Subject<Gender>();
+  pagination$ = new Subject<Pagination>()
   outfitData!: Outfit;
   products: Product[] = [];
   translates: { [name: string]: string } = {};
   filterData!: Filter;
+  pagination!: Pagination;
 
   constructor(private http: HttpClientService) {
     this.query.country = "";
     this.query = new Query();
-
   }
 
   getQuery(): Query {
     return this.query;
   }
 
+  updateQueryCategory(categories: string) {
+    this.query.category = categories;
+    this.query.offset = 0;
+  }
+
+  updateOffset(pageNumber: number) {
+    this.query.offset = (pageNumber - 1) * this.query.limit;
+  }
+
+  resetQuery() {
+    this.query.offset = 0;
+    this.query.category = '';
+  }
+
   setSelectedCountry(selectedCountry: string): void {
     this.query.country = selectedCountry;
+    this.resetQuery();
     this.getOutfitDetails();
     this.emitCategory();
   }
 
   setGender(gender: string): void {
     this.query.gender = gender;
+    this.resetQuery();
     this.getOutfitDetails();
     this.emitCategory();
   }
@@ -62,13 +80,10 @@ export class OutfitService {
         this.outfitData.items.forEach(
           (item) => {
             imageName = item.name;
-            imageId = item.id;
-            let variant = item.variants.filter(x => x.productId == item.id)[0];
-            if (!variant) {
-              variant = item.variants[0];
-            }
-            price = variant.currentPrice;
-            imageUrl = this.getOutfitImageUrl(variant.images[0].key);
+            let variant = item.variants[0];
+            imageId = variant.productId;
+            price = variant.currentPrice + ' ' + variant.currency;
+            imageUrl = this.getOutfitImageUrl(variant.images[0].key, ImageResolution.high);
 
             this.products.push(
               {
@@ -80,51 +95,63 @@ export class OutfitService {
 
           });
 
-        this.products$.next(this.products);
+          this.emitOutfitData();
       }
     );
   }
 
-  getTranslates(): any {
+  getFilterReq() {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("country", this.query.country);
-
-    this.http.get('Outfit/Products', { params: queryParams }).subscribe(
-      (data) => {
-        this.translates = data;
-        this.getFilters();
-      }
-    );
+    return this.http.get('Outfit/Filters', { params: queryParams });
   }
 
-  getFilters(): any {
+  getTranslateData() {
     let queryParams = new HttpParams();
     queryParams = queryParams.append("country", this.query.country);
+    return this.http.get('Outfit/Products', { params: queryParams });
+  }
 
-    this.http.get('Outfit/Filters', { params: queryParams }).subscribe(
-      (data) => {
-        this.filterData = data;
+  getFilterData() {
+    forkJoin({
+      translatedData: this.getTranslateData(),
+      filterData: this.getFilterReq(),
+    }).subscribe(
+      data => {
+        this.translates = data.translatedData;
+        this.filterData = data.filterData;
 
-        // Apply translation for Category
-        this.applyCategoryTranslation(this.filterData.men);
-        this.applyCategoryTranslation(this.filterData.women);
-
+        // Prepare data in required format
+        this.applyCategoryTranslation(this.filterData.men, "haka_");
+        this.applyCategoryTranslation(this.filterData.women, "");
         this.emitCategory();
       }
     );
   }
 
-  applyCategoryTranslation(category: Gender) {
+  getProduct(productId: string) {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("country", this.query.country);
+    return this.http.get('Outfit/Product/' + productId, { params: queryParams });
+  }
+
+  applyCategoryTranslation(category: Gender, prefix: string) {
     category.categories.forEach(
       (category) => {
-        category.value = this.translates['filter_haka_' + category.name.toLocaleLowerCase()];
+        category.value = this.translates['filter_' + prefix + category.name.toLocaleLowerCase()];
         category.filters.forEach(
           (subCategory) => {
-            subCategory.value = this.translates['filter_haka_' + subCategory.name.toLocaleLowerCase()];
+            subCategory.value = this.translates['filter_' + prefix + subCategory.name.toLocaleLowerCase()];
           }
         );
       }
     );
+  }
+
+  emitOutfitData() {
+    this.products$.next(this.products);
+    this.pagination = new Pagination(this.outfitData.totalCount, (this.query.offset / 20) + 1);
+    this.pagination$.next(this.pagination);
   }
 
   emitCategory() {
@@ -138,8 +165,8 @@ export class OutfitService {
     this.category$.next(category)
   }
 
-  getOutfitImageUrl(image: string) {
-    return "https://api.newyorker.de/csp/images/image/public/" + image + "?res=high&frame=2_3";
+  getOutfitImageUrl(image: string, resolution: string) {
+    return "https://api.newyorker.de/csp/images/image/public/" + image + "?res=" + resolution + "&frame=2_3";
   }
 
 }

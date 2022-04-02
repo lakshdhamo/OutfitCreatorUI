@@ -10,11 +10,9 @@ import { OutfitService } from 'src/app/Services/outfit.service';
 })
 export class OutfitareaComponent implements OnInit {
 
-
   constructor() { }
 
   ngOnInit(): void {
-
   }
 
 }

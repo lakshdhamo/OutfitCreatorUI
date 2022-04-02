@@ -1,9 +1,19 @@
 <div class="checkbox" *ngFor="let category of category.categories">
   <ul>
-    <span (click)="onCategorySelect(category.name)" role="button" class="vertical-filters-header">{{category.value}}</span>
-    <li *ngFor="let item of category.filters">
-      <span (click)="onCategorySelect(item.name)" role="button" class="vertical-filters-filters">{{item.value}}</span>
-    </li>
+    <div class="row">
+      <span class="col-md-1 float-left" (click)="handleVisible(category)" role="button"> {{category.expand ? "-" : "+"}}
+      </span>
+      <label class="vertical-filters-header col-md-11">
+        <input type="checkbox" value="{{category.name}}" [checked]="category.checked"
+          (change)="onCategorySelect(category)">{{" " + category.value}}
+      </label>
 
+    </div>
+    <li *ngFor="let item of category.filters">
+      <label [hidden]="!item.visible">
+        <input type="checkbox" value="{{item.name}}" [checked]="item.checked"
+          (change)="onSubCategorySelect(item, category)">{{"
+        " + item.value}}</label>
+    </li>
   </ul>
 </div>

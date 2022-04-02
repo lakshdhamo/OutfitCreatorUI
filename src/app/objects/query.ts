@@ -8,7 +8,7 @@ export class Query {
   constructor() {
     this.country = "DE";
     this.offset = 0;
-    this.limit = 25;
+    this.limit = 20;
     this.gender = "MALE";
     this.category = "";
   }

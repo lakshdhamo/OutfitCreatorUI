@@ -7,9 +7,12 @@ import { HeaderComponent } from './components/header/header.component';
 import { OutfitareaComponent } from './components/outfitarea/outfitarea.component';
 import { OutfitComponent } from './components/outfit/outfit.component';
 import { FilterComponent } from './components/filter/filter.component';
-import { PaginationModule } from './modules/pagination/pagination.module';
 import { ProductComponent } from './components/product/product.component';
-import { AppHttpInterceptor } from './Services/httpInterceptor.service';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { ProductdetailComponent } from './components/productdetail/productdetail.component';
+import { ProductvariantsComponent } from './components/productvariants/productvariants.component';
+import { ProductinfoComponent } from './components/productinfo/productinfo.component';
+import { GlobalheaderComponent } from './components/globalheader/globalheader.component';
 
 @NgModule({
   declarations: [
@@ -19,16 +22,20 @@ import { AppHttpInterceptor } from './Services/httpInterceptor.service';
     OutfitComponent,
     FilterComponent,
     ProductComponent,
+    ProductdetailComponent,
+    ProductvariantsComponent,
+    ProductinfoComponent,
+    GlobalheaderComponent,
+
 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    PaginationModule
+    NgxPaginationModule
   ],
   providers: [
-    // { provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,6 @@
-export interface Filters {
-  name: string;
-  value: string;
+export class Filters {
+  name!: string;
+  value!: string;
+  checked: boolean = false;
+  visible: boolean = false;
 }

@@ -1,29 +1,28 @@
 <div class="container">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light ">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">NEW YORKER</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      <!-- <a class="navbar-brand" href="#">NEW YORKER</a> -->
+      <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-      </button>
+      </button> -->
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false" (click)="setGender('MALE')">
+            <a class="nav-link" [ngClass]="{'active': selectedItem === 'MALE'}" href="#" id="navbarDropdown"
+              role="button" data-bs-toggle="dropdown" aria-expanded="false" (click)="setGender('MALE')">
               Men
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false" (click)="setGender('FEMALE')">
+            <a class="nav-link" [ngClass]="{'active': selectedItem === 'FEMALE'}" href="#" id="navbarDropdown"
+              role="button" data-bs-toggle="dropdown" aria-expanded="false" (click)="setGender('FEMALE')">
               Women
             </a>
           </li>
         </ul>
         <form class="d-flex">
           <select class="form-control" name="country" id="country" (change)="onChange($event.target)">
-            <option value="" disabled selected>Select Country</option>
             <option *ngFor="let country of countries" [value]="country.code">{{country.name}} - {{country.code}}
             </option>
           </select>
