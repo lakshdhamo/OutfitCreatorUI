@@ -15,6 +15,7 @@ export class ProductComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /// Navigates to Product page to display the detailed product information
   routeToProductdetail() {
     this.router.navigate(['/product'], { queryParams: { productId: this.product.id } });
   }

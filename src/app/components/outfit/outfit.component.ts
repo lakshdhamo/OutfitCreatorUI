@@ -1,7 +1,6 @@
 import { Product } from './../../objects/product';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Outfit } from 'src/app/objects/outfit';
 import { OutfitService } from 'src/app/Services/outfit.service';
 import { browserRefresh } from 'src/app/app.component';
 
@@ -33,20 +32,22 @@ export class OutfitComponent implements OnInit, OnDestroy {
       })
     );
 
+    /// Loads the fresh data when reload, loads the existing data when come back from other view
     if (browserRefresh) {
       this.outfitService.getOutfitDetails();
     } else {
-      this.outfitService.emitOutfitData();
+      this.outfitService.publishOutfitData();
     }
-
   }
 
+  /// Fetch new data based on the page change
   pageEvent(pageNumber: any): void {
     this.page = pageNumber;
     this.outfitService.updateOffset(pageNumber);
     this.outfitService.getOutfitDetails();
   }
 
+  /// Unsubscribe the Subscription
   ngOnDestroy(): void {
     this.productsData$.unsubscribe();
     this.paginationData$.unsubscribe();

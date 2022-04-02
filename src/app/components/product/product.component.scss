@@ -4,6 +4,20 @@
   font-size: 14px;
   margin: 0 0 18x;
   clear: both;
+  color: #01040f;
+  display: block;
+}
+
+.price {
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 12px;
+  margin: 0 0 18x;
+  clear: both;
   color: #282c3f;
   display: block;
+}
+
+.pointer{
+  cursor: pointer;
 }

@@ -12,14 +12,10 @@ export class CountryService implements OnInit {
   constructor(private http: HttpClientService) {
   }
 
-  ngOnInit() {
+  ngOnInit() { }
 
-  }
-
+  /// Gets the provided country list from the API
   getCountries(): Observable<Country[]> {
     return this.http.get('Outfit/Countries');
   }
-
-
-
 }

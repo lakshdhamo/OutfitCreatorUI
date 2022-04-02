@@ -13,6 +13,8 @@ import { ProductdetailComponent } from './components/productdetail/productdetail
 import { ProductvariantsComponent } from './components/productvariants/productvariants.component';
 import { ProductinfoComponent } from './components/productinfo/productinfo.component';
 import { GlobalheaderComponent } from './components/globalheader/globalheader.component';
+import { AppHttpInterceptor } from './Services/httpInterceptor.service';
+import { LoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,7 @@ import { GlobalheaderComponent } from './components/globalheader/globalheader.co
     ProductvariantsComponent,
     ProductinfoComponent,
     GlobalheaderComponent,
-
+    LoaderComponent,
 
   ],
   imports: [
@@ -35,8 +37,7 @@ import { GlobalheaderComponent } from './components/globalheader/globalheader.co
     HttpClientModule,
     NgxPaginationModule
   ],
-  providers: [
-  ],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

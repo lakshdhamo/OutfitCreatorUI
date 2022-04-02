@@ -27,11 +27,14 @@ export class ProductdetailComponent implements OnInit {
         this.item.variants.forEach(
           variant => {
 
+            /// Collects Images from different variant
             variant.images.forEach(
               image => {
                 this.images.push(this.outfitService.getOutfitImageUrl(image.key, ImageResolution.higher));
               }
             );
+
+            /// Collects Sizes from different variant
             let sizes: string[] = []
             variant.sizes.forEach(
               size => {
@@ -39,6 +42,7 @@ export class ProductdetailComponent implements OnInit {
               }
             );
             this.sizes = sizes.join(", ");
+
           }
         );
       }

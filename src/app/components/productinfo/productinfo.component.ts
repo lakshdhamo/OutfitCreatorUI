@@ -16,6 +16,7 @@ export class ProductinfoComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /// Navigates to homepage
   navigateToHome() {
     this.router.navigate(['']);
   }

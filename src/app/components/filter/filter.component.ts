@@ -14,24 +14,28 @@ import { browserRefresh } from 'src/app/app.component';
 })
 export class FilterComponent implements OnInit, OnDestroy {
   filter$!: Subscription;
-  category!: Gender;
+  category!: Gender;            /// Holds Men's or Women's filter data
 
   constructor(private outfitService: OutfitService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    /// Gets the Filter data
     this.filter$ = this.outfitService.category$.subscribe(
       (data) => {
         this.category = data;
       }
     );
+
+    /// Loads the fresh data when reload, loads the existing data when come back from other view
     if (browserRefresh) {
       this.outfitService.getFilterData();
     } else {
-      this.outfitService.emitCategory();
+      this.outfitService.publishCategory();
     }
 
   }
 
+  /// Uncheck / check the sub category based on mail category
   onCategorySelect(categoryMain: Category) {
     categoryMain.checked = !categoryMain.checked;
     categoryMain.filters.forEach(
@@ -44,9 +48,11 @@ export class FilterComponent implements OnInit, OnDestroy {
       }
     );
 
+    /// Unchecks other categories
     this.uncheckOtherCategory(categoryMain);
   }
 
+  /// Uncheck / check the main category based on child category select/deselect
   onSubCategorySelect(subCategory: Filters, categoryMain: Category) {
     subCategory.checked = !subCategory.checked;
     if (categoryMain.filters.filter(x => x.checked).length == categoryMain.filters.length) {
@@ -56,9 +62,11 @@ export class FilterComponent implements OnInit, OnDestroy {
       categoryMain.checked = false;
     }
 
+    /// Unchecks other categories
     this.uncheckOtherCategory(categoryMain);
   }
 
+  /// Unchecks other categories
   uncheckOtherCategory(categoryMain: Category) {
     /// Uncheck other categories
     this.category.categories.forEach(item => {
@@ -79,8 +87,9 @@ export class FilterComponent implements OnInit, OnDestroy {
     }
     );
 
-    /// Collected selected categories
+    /// Collect selected categories
     let categoryVal = "";
+
     /// Collect parent category item
     if (categoryMain.checked)
       categoryVal += categoryMain.name;
@@ -97,9 +106,9 @@ export class FilterComponent implements OnInit, OnDestroy {
 
     /// Update Category and get the latest outfit details.
     this.outfitService.updateQueryCategory(categoryVal);
-    this.outfitService.getOutfitDetails();
   }
 
+  /// Expand / Collapse the sub category
   handleVisible(categoryMain: Category) {
     categoryMain.expand = !categoryMain.expand;
     categoryMain.filters.forEach(data => {
@@ -112,6 +121,7 @@ export class FilterComponent implements OnInit, OnDestroy {
     })
   }
 
+  /// Unsubscribe the Subscription
   ngOnDestroy(): void {
     this.filter$.unsubscribe();
   }

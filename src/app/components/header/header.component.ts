@@ -11,11 +11,10 @@ import { OutfitService } from 'src/app/Services/outfit.service';
 })
 export class HeaderComponent implements OnInit {
   countries: Country[] | undefined;
-  selectedItem = "MALE";
+  selectedItem = "MALE";              /// Male by default
 
   constructor(private countryService: CountryService,
     private outfitService: OutfitService, private router: Router) { }
-
 
   ngOnInit(): void {
     this.selectedItem = this.outfitService.getQuery().gender;
@@ -26,10 +25,12 @@ export class HeaderComponent implements OnInit {
     );
   }
 
-  onChange(country: any) {
+  /// Sets the Country value to Service
+  setCountry(country: any) {
     this.outfitService.setSelectedCountry(country.value);
   }
 
+  /// Sets the Gender value to Service
   setGender(gender: string) {
     this.selectedItem = gender == "MALE" ? "MALE" : "FEMALE";
     this.outfitService.setGender(gender);

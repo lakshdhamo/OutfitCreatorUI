@@ -8,16 +8,27 @@ import {
   HttpEvent
 } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
+import { finalize, Observable, tap } from 'rxjs';
+import { LoaderService } from './loader.service';
 
 @Injectable()
 export class AppHttpInterceptor implements HttpInterceptor {
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-    // const authReq = request.clone({
-    //   headers: request.headers.set('Content-Type', 'application/json')
-    // });
-
-    return next.handle(request);
+  constructor(private loaderService: LoaderService) {
   }
+
+  intercept(req: HttpRequest<any>, next: HttpHandler) {
+    /// Display the loader
+    this.loaderService.show()
+
+    /// Hides the loader after some interval to give better view to user
+    setTimeout(() => {
+      this.loaderService.hide();
+    }, 1000);
+
+    return next.handle(req).pipe(
+      finalize(() => this.loaderService.hide())
+    );
+
+  }
+
 }

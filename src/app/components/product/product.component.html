@@ -1,22 +1,11 @@
 <div>
-  <!-- <div class="col-sm-4 col-md-4 col-xs-8" style="padding: 5px">
-      <img alt="" src="{{product.url}}" style="height: 215px;
-              width: 150px" />
-    </div>
-    <div class="col-sm-8 col-md-8 col-xs-16">
-      <span class="vertical-filters-header">{{product.name}}</span>
-      <p>
-        {{product.price}}
-      </p>
-    </div> -->
-
   <div style="padding: 5px">
     <img alt="" src="{{product.url}}" style="height: 250px;
-              width: 175px" (click)="routeToProductdetail()" role="button"/>
+              width: 175px" (click)="routeToProductdetail()"  class="pointer"/>
   </div>
   <div>
     <span class="vertical-filters-header">{{product.name}}</span>
-    <p>
+    <p class="price">
       {{product.price}}
     </p>
   </div>
