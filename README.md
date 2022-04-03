@@ -3,7 +3,9 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.6.
 
 ## About
+Its a random outfit generator application. It generates the Outfit based on the Country, Gender and category if any. It displays 20 items per page. User can navigate to any page to display the desired product items. User can also view the detailed information about any items by clicking the product image. And, use can come back to home screen by closing the product page. Texts and currencies are localized based on the country selection.
 
+Below are some of the highlights about the App:
 1. Its a single page application developed using Angular. 
 2. Default Gender is MALE
 3. Default Country code is DE
@@ -58,6 +60,3 @@ Run `npm ng serve` for a dev server. Navigate to `http://localhost:4200/`. The a
 18. OutfitService - contains the API calls to fetch the filter, translation, outfit, product data
 19. environment - contains the environment specific data
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
