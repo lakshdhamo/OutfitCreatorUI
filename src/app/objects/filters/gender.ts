@@ -1,4 +1,4 @@
 import { Category } from './category';
-export interface Gender {
-  categories: Category[];
+export class Gender {
+  categories: Category[] = [];
 }

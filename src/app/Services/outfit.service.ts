@@ -2,7 +2,7 @@ import { Gender } from './../objects/filters/gender';
 import { Filter } from './../objects/filters/filter';
 import { Product } from './../objects/product';
 import { HttpClientService } from './httpclient.service';
-import { forkJoin, Subject } from 'rxjs';
+import { BehaviorSubject, forkJoin, Subject } from 'rxjs';
 import { Injectable } from "@angular/core";
 import { Query } from '../objects/query';
 import { Outfit } from '../objects/outfit';
@@ -14,18 +14,17 @@ import { ImageResolution } from '../enums/imageResolution.enum';
   providedIn: "root"
 })
 export class OutfitService {
-  private query = new Query();                      /// Holds the query data to fetch the outfit
-  products$ = new Subject<Product[]>();             /// Product data publisher
-  category$ = new Subject<Gender>();                /// Filter data publisher
-  pagination$ = new Subject<Pagination>()           /// Pagination data publisher
-  outfitData!: Outfit;                              /// Holds the Outfit data
-  products: Product[] = [];                         /// Holds the list of products to be displayed
-  translates: { [name: string]: string } = {};      /// Holds the language specific translation text
-  filterData!: Filter;                              /// Holds the filter data
-  pagination!: Pagination;                          /// Holds the pagination data
+  private query = new Query();                                    /// Holds the query data to fetch the outfit
+  outfitData!: Outfit;                                            /// Holds the Outfit data
+  products: Product[] = [];                                       /// Holds the list of products to be displayed
+  pagination!: Pagination;                                        /// Holds the pagination data
+  filterData!: Filter;                                            /// Holds the filter data
+  translates: { [name: string]: string } = {};                    /// Holds the language specific translation text
+  category$ = new Subject<Gender>();                              /// Filter data publisher
+  products$ = new BehaviorSubject<Product[]>(this.products);      /// Product data publisher
+  pagination$ = new BehaviorSubject<Pagination>(this.pagination); /// Pagination data publisher
 
   constructor(private http: HttpClientService) {
-    this.query.country = "";
     this.query = new Query();
   }
 

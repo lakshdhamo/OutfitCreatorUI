@@ -11,7 +11,7 @@ export let browserRefresh = false;
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnDestroy {
-  title = 'outfitcreator';
+  title = 'NEW YORKER | Products';
   subscription!: Subscription;
   loader$!: Subscription;
   isLoading = false;

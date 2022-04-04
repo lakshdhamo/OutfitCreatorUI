@@ -29,14 +29,13 @@ export class OutfitComponent implements OnInit, OnDestroy {
       (data => {
         this.totalPagesCount = data.totalCount;
         this.page = data.currentPage;
+        window.scrollTo(0, 0);
       })
     );
 
     /// Loads the fresh data when reload, loads the existing data when come back from other view
     if (browserRefresh) {
       this.outfitService.getOutfitDetails();
-    } else {
-      this.outfitService.publishOutfitData();
     }
   }
 
