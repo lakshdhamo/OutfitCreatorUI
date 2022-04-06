@@ -1,4 +1,4 @@
-<app-loader *ngIf="isLoading">{{ isLoading }}</app-loader>
+<app-loader *ngIf="(loader$ | async)"></app-loader>
 <div class="container">
   <app-globalheader></app-globalheader>
   <router-outlet></router-outlet>

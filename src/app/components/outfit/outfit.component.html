@@ -1,11 +1,11 @@
 <div class="container border-start">
   <div class="row row-cols-4">
     <app-product class="col"
-      *ngFor="let val of products | paginate: { itemsPerPage: 20, currentPage: page, totalItems: totalPagesCount }; let i = index"
+      *ngFor="let val of (products$ | async)! | paginate: { itemsPerPage: 20, currentPage: page, totalItems: totalPagesCount }; let i = index"
       [product]="val"></app-product>
   </div>
 </div>
 <div class="text-center">
-  <pagination-controls *ngIf="products.length > 0" (pageChange)="page = $event" [maxSize]=9
+  <pagination-controls *ngIf="totalPagesCount > 0" (pageChange)="page = $event" [maxSize]=9
     (pageChange)="pageEvent($event)"></pagination-controls>
 </div>

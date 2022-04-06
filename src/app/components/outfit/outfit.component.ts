@@ -11,20 +11,15 @@ import { browserRefresh } from 'src/app/app.component';
 })
 export class OutfitComponent implements OnInit, OnDestroy {
   page = 1;
-  productsData$!: Subscription;
   paginationData$!: Subscription;
   products: Product[] = [];
   totalPagesCount = 0;
+  products$ = this.outfitService.products$;
 
-  constructor(private outfitService: OutfitService) { }
+  constructor(private outfitService: OutfitService) {
+  }
 
   ngOnInit(): void {
-    this.productsData$ = this.outfitService.products$.subscribe(
-      (data) => {
-        this.products = data;
-      }
-    );
-
     this.paginationData$ = this.outfitService.pagination$.subscribe(
       (data => {
         this.totalPagesCount = data.totalCount;
@@ -36,6 +31,8 @@ export class OutfitComponent implements OnInit, OnDestroy {
     /// Loads the fresh data when reload, loads the existing data when come back from other view
     if (browserRefresh) {
       this.outfitService.getOutfitDetails();
+    } else {
+      this.outfitService.publishPageginationData();
     }
   }
 
@@ -48,7 +45,6 @@ export class OutfitComponent implements OnInit, OnDestroy {
 
   /// Unsubscribe the Subscription
   ngOnDestroy(): void {
-    this.productsData$.unsubscribe();
     this.paginationData$.unsubscribe();
   }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Country } from 'src/app/objects/country';
+import { browserRefresh } from 'src/app/app.component';
 import { CountryService } from 'src/app/Services/country.service';
 import { OutfitService } from 'src/app/Services/outfit.service';
 
@@ -10,19 +10,21 @@ import { OutfitService } from 'src/app/Services/outfit.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  countries: Country[] | undefined;
   selectedItem = "MALE";              /// Male by default
+  country$ = this.countryService.country$;
+  selectedCountry = "DE";
 
   constructor(private countryService: CountryService,
     private outfitService: OutfitService, private router: Router) { }
 
   ngOnInit(): void {
     this.selectedItem = this.outfitService.getQuery().gender;
-    this.countryService.getCountries().subscribe(
-      (data: any) => {
-        this.countries = data;
-      }
-    );
+    this.selectedCountry = this.outfitService.getQuery().country;
+
+    /// Loads the fresh data when reload, loads the existing data when come back from other view
+    if (browserRefresh) {
+      this.countryService.getCountries()
+    }
   }
 
   /// Sets the Country value to Service

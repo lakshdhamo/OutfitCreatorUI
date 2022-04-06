@@ -22,7 +22,7 @@ export class OutfitService {
   translates: { [name: string]: string } = {};                    /// Holds the language specific translation text
   category$ = new Subject<Gender>();                              /// Filter data publisher
   products$ = new BehaviorSubject<Product[]>(this.products);      /// Product data publisher
-  pagination$ = new BehaviorSubject<Pagination>(this.pagination); /// Pagination data publisher
+  pagination$ = new Subject<Pagination>();                        /// Pagination data publisher
 
   constructor(private http: HttpClientService) {
     this.query = new Query();
@@ -166,6 +166,10 @@ export class OutfitService {
   /// Publish the outfit data
   publishOutfitData() {
     this.products$.next(this.products);
+    this.publishPageginationData();
+  }
+
+  publishPageginationData() {
     this.pagination = new Pagination(this.outfitData.totalCount, (this.query.offset / 20) + 1);
     this.pagination$.next(this.pagination);
   }

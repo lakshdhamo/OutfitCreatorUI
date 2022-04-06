@@ -15,6 +15,7 @@ import { ProductinfoComponent } from './components/productinfo/productinfo.compo
 import { GlobalheaderComponent } from './components/globalheader/globalheader.component';
 import { AppHttpInterceptor } from './Services/httpInterceptor.service';
 import { LoaderComponent } from './components/loader/loader.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { LoaderComponent } from './components/loader/loader.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    FormsModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true }],
   bootstrap: [AppComponent]

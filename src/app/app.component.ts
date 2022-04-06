@@ -1,5 +1,5 @@
 import { Subscription } from 'rxjs';
-import { Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { LoaderService } from './Services/loader.service';
 
@@ -8,13 +8,13 @@ export let browserRefresh = false;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnDestroy {
   title = 'NEW YORKER | Products';
   subscription!: Subscription;
-  loader$!: Subscription;
-  isLoading = false;
+  loader$ = this.loaderService.isLoading;
 
   constructor(private router: Router, private loaderService: LoaderService) {
 
@@ -24,12 +24,6 @@ export class AppComponent implements OnDestroy {
         browserRefresh = !router.navigated;
       }
     });
-
-    /// Decides whether to show the loader or not
-    this.loader$ = loaderService.isLoading.subscribe(
-      data => this.isLoading = data
-    )
-
   }
 
   ngOnDestroy(): void {

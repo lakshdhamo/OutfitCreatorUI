@@ -5,20 +5,22 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <a class="nav-link" [ngClass]="{'active': selectedItem === 'MALE'}" href="#" id="navbarDropdown"
-              role="button" data-bs-toggle="dropdown" aria-expanded="false" (click)="setGender('MALE')">
+              role="button" (click)="setGender('MALE')">
               Men
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" [ngClass]="{'active': selectedItem === 'FEMALE'}" href="#" id="navbarDropdown"
-              role="button" data-bs-toggle="dropdown" aria-expanded="false" (click)="setGender('FEMALE')">
+              role="button" (click)="setGender('FEMALE')">
               Women
             </a>
           </li>
         </ul>
         <form class="d-flex">
-          <select class="form-control" name="country" id="country" (change)="setCountry($event.target)">
-            <option *ngFor="let country of countries" [value]="country.code">{{country.name}} - {{country.code}}
+          <select class="form-control" name="country" id="country" (change)="setCountry($event.target)"
+            [(ngModel)]="selectedCountry">
+            <option *ngFor="let country of (country$ | async)" [value]="country.code">{{country.name}} -
+              {{country.code}}
             </option>
           </select>
         </form>

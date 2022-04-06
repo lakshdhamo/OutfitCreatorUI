@@ -1,13 +1,15 @@
-<button type="button" class="btn-close float-end close" aria-label="Close" (click)="navigateToHome()"></button>
+<div *ngIf="item != null">
+  <button type="button" class="btn-close float-end close" aria-label="Close" (click)="navigateToHome()"></button>
 
-<span class="productHead">{{item.name}}</span>
-<span class="productDetails">{{item.variants[0].currentPrice.toString() + " " + item.variants[0].currency}}</span>
-<div class="row">
-  <div class="col">
-    <span class="brand">{{item.brand}}</span>
+  <span class="productHead">{{item.name}}</span>
+  <span class="productDetails">{{item.variants[0].currentPrice.toString() + " " + item.variants[0].currency}}</span>
+  <div class="row">
+    <div class="col">
+      <span class="brand">{{item.brand}}</span>
+    </div>
+    <div class="col">
+      <span class="productHead color">{{item.variants[0].color}}</span>
+    </div>
   </div>
-  <div class="col">
-    <span class="productHead color">{{item.variants[0].color}}</span>
-  </div>
+  <span>{{sizes}}</span>
 </div>
-<span>{{sizes}}</span>
